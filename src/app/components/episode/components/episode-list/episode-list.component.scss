@@ -1,0 +1,23 @@
+.mat-button-custom-color {
+    background-color: #228B22;
+}
+.episode-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 50px 20px; 
+    margin: auto;
+  }
+  
+  @media (min-width: 510px) {
+    .episode-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+  
+  }
+  
+  @media (min-width: 768px) {
+    .episode-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+  
+  }

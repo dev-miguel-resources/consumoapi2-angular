@@ -7,9 +7,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { LayoutComponent } from './components/layout/layout.component';
-import { MaterialModule } from './components/material/material/material.module';
 import { PageNotFoundModule } from './components/page-not-found/page-not-found.module';
 import { SharedModule } from './shared/shared.module';
+import { MaterialModule } from './components/material/material.module';
 
 
 
@@ -23,11 +23,11 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    NgxPaginationModule,
-    MaterialModule, 
+    NgxPaginationModule, 
     SharedModule,
     FormsModule, 
-    PageNotFoundModule
+    PageNotFoundModule, 
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

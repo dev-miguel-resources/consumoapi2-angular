@@ -1,1 +1,34 @@
-<p>search-character works!</p>
+<mat-form-field>
+    <mat-label>ID del Personaje</mat-label>
+    <input matInput type="number" [(ngModel)]="characterId">
+  </mat-form-field>
+  
+<mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input matInput type="text" [(ngModel)]="characterName">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Select a Status</mat-label>
+    <mat-select [(value)]="characterStatus">
+      <mat-option>None</mat-option>
+      <mat-option value="alive">Alive</mat-option>
+      <mat-option value="dead">Dead</mat-option>
+      <mat-option value="unknown">Unknown</mat-option>
+    </mat-select>
+ </mat-form-field>
+
+ <mat-form-field>
+    <mat-label>Select an Gender</mat-label>
+    <mat-select [(value)]="characterGender">
+      <mat-option>None</mat-option>
+      <mat-option value="female">Female</mat-option>
+      <mat-option value="male">Male</mat-option>
+      <mat-option value="genderless">Genderless</mat-option>
+      <mat-option value="unknown">Unknown</mat-option>
+    </mat-select>
+ </mat-form-field>
+  
+  
+  <button mat-raised-button color="primary" (click)="search()">Buscar</button>
+  <button mat-raised-button color="primary" (click)="doTryLuck()">Probar Suerte</button>
