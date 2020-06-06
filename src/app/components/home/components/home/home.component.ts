@@ -1,14 +1,15 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-// tslint:disable-next-line: max-line-length
-import {MatSnackBar, MatSnackBarConfig, MatSnackBarVerticalPosition, MatSnackBarHorizontalPosition} from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material';
 import { Observable } from 'rxjs';
-import {map, take, tap} from 'rxjs/operators';
-import { Character } from '../../../../core/models/character';
-import { SearchResult } from '../../../../core/models/response/search-results';
-import { Search } from '../../../../core/models/search/search';
-import { CharactersService } from '../../../../core/services/character/characters.service';
-import {UtilFunctions} from 'src/app/utils/CommonsUtils';
+import { map, take, tap } from 'rxjs/operators';
+import { Character } from 'src/app/core/models/character';
+import { SearchResult } from 'src/app/core/models/response/search-results';
+import { Search } from 'src/app/core/models/search/search';
+import { CharactersService } from 'src/app/core/services/character/characters.service';
+import { UtilFunctions } from 'src/app/utils/CommonsUtils';
 import Swiper from 'swiper';
+
+
 
 @Component({
   selector: 'app-home',
@@ -17,19 +18,19 @@ import Swiper from 'swiper';
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 
-  loading = true;
+  loading: boolean = true;
   showDefaultGrid: boolean;
   test: boolean;
   characterList: Character[];
   mySwiper: Swiper;
-
+  
   totalRecords: number;
   page: number;
   pageSize: number;
   asyncCharacterList: Observable<Character[]>;
 
   constructor(private charactersService: CharactersService, private snackBar: MatSnackBar) {
-    this.showDefaultGrid = true;
+    this.showDefaultGrid = false;
     this.test = false;
     this.characterList = [];
     this.page = 1;
@@ -38,7 +39,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.findCharactersByLucky(); // cargo inicialmente los primeros personajes hasta 9 registros
+    this.findCharactersByLucky();
   }
 
   ngAfterViewInit() {
@@ -71,29 +72,28 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  pageChanged(page: number): void { // guardo la pagina y cambio el valor de la busqueda del método
+  pageChanged(page: number): void {
     this.page = page;
     this.getCharacterList(null);
   }
 
   private findCharactersByLucky(): void {
-      this.charactersService.findAllCharacters().pipe(take(1)).subscribe(resp => {
+    this.charactersService.findAllCharacters().pipe(take(1)).subscribe(resp => {
         this.findCharactersByIds(resp.info.count, 9);
-      });
+    });
   }
 
-  private findCharactersByIds(totalCharacters: number, charactersToShow: number ): void {
-      const ids = UtilFunctions.getRandomIdsToFinds(totalCharacters, charactersToShow);
-      this.charactersService.findCharactersByIds(ids).pipe(take(1)).subscribe(response => {
+  private findCharactersByIds(totalCharacters: number, charactersToShow: number): void {
+    let ids = UtilFunctions.getRamdomIdsToFinds(totalCharacters, charactersToShow);
+        this.charactersService.findCharactersByIds(ids).pipe(take(1)).subscribe(response => {
           this.characterList = response;
           this.loading = false;
           this.showDefaultGrid = true;
         });
   }
 
-  // tslint:disable-next-line: max-line-length
-  private getCharacterList(search: Search): void { // maneja toda la carga de los personajes, la guardo en esa propiedad para luego hacer el recorrido asincrono
-    this.asyncCharacterList = this.loadCharacters(search).pipe(
+  private getCharacterList(search: Search): void {
+    this.asyncCharacterList = this.loadCharacters(search).pipe( 
       tap(response => {
         this.totalRecords = response.info.count;
         this.loading = false;
@@ -102,29 +102,28 @@ export class HomeComponent implements OnInit, AfterViewInit {
     );
   }
 
-  // tslint:disable-next-line: max-line-length
-  private loadCharacters(search: Search): Observable<SearchResult<Character>> { // retorna el servicio donde lo que se obtiene es una estructura del observable de arriba
+  private loadCharacters(search: Search): Observable<SearchResult<Character>>  {
     return this.charactersService.findByFiltersAndPage(search, this.page);
   }
 
-  private findCharacter(id: number): void { // busca un personaje por id
+  private findCharacter(id: number): void {
     let doFindById = true;
     if (this.characterList.length === 1) {
-      if (this.characterList[0].id === id) {
-        doFindById = false;
-      }
-    }
+        if (this.characterList[0].id === id) {
+          doFindById = false;
+        }
+    } 
 
     if (doFindById) {
       this.findCharacterById(id.toString());
     }
   }
 
-  private findCharacterById(id: string): void {  // llama al servicio obtiene personajes por id y lo arregla al listado
-      this.showDefaultGrid = false;
-      this.characterList = [];
-      this.loading = true;
-      this.charactersService.findById(id).pipe(take(1)).subscribe(
+  private findCharacterById(id: string): void {
+    this.showDefaultGrid = false;
+    this.characterList = [];
+    this.loading = true;
+    this.charactersService.findById(id).pipe(take(1)).subscribe(
         response => {
           this.characterList.push(response);
           this.loading = false;
@@ -132,21 +131,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
         });
   }
 
-  private searchingById(search: Search): boolean { // cambia o no el valor de mi propiedad booleana si viene o no la busqueda
-      let itsTrue = false;
-      if (search && search.id !== 0) {
-          itsTrue = true;
-      }
-      return itsTrue;
+  private searchingById(search: Search): boolean {
+    let itstrue = false;
+    if (search && search.id !== 0) {
+        itstrue = true;
+    }
+    return itstrue;
   }
 
-  private showSnackBar(): void { // configura todo mi snack de material cuando se abra el snack
-    const message = 'Wubba Lubba Dub Dub !';
-    const setAutoHide = true;
-    const autoHide = 1500;
-    const horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-    const verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-    const config = new MatSnackBarConfig();
+  private showSnackBar(): void {
+    let message: string = 'Wubba Lubba Dub Dub !';
+    let setAutoHide: boolean = true;
+    let autoHide: number = 1500;
+    let horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    let verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+    let config = new MatSnackBarConfig();
     config.verticalPosition = verticalPosition;
     config.horizontalPosition = horizontalPosition;
     config.duration = setAutoHide ? autoHide : 0;

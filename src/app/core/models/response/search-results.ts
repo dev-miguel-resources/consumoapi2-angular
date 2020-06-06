@@ -1,4 +1,4 @@
-import {Info} from "./info";
+import { Info } from "./info";
 
 export class SearchResult<T> {
     info: Info;

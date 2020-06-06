@@ -1,8 +1,8 @@
 <div class="container">
     <app-banner></app-banner>
-    <app-search-character (filters)="doSearch($event)" (tryLuck)="doTryLuck($event)"></app-search-character>
-    <div class="loading-mask" *ngIf="loading"></div>
-    <div class="card-grip" *ngIf="showDefaultGrid">
+    <app-search-character (filters)="doSearch($event)" (tryLuck)="doTryLuck($event)"> </app-search-character>
+    <div class="loading-mask" *ngIf="loading">  </div>
+    <div class="card-grid" *ngIf="showDefaultGrid">
         <app-character *ngFor="let character of characterList" [character]="character"></app-character>
     </div>
     <div class="text-center" *ngIf="totalRecords > pageSize">
@@ -10,12 +10,15 @@
     </div>
     <div *ngIf="test">
         <div class="card-grid">
-            <app-character *ngFor="let character of asyncCharacterList | async | paginate: {id: 'characterGrid', itemsPerPage: pageSize, currentPage: page, totalItems: totalRecords}" 
-                [character]="character">
+            <app-character *ngFor="let character of asyncCharacterList | async | paginate: { id: 'characterGrid', 
+                                                                                        itemsPerPage: pageSize, 
+                                                                                        currentPage: page, 
+                                                                                        totalItems: totalRecords }" 
+                           [character]="character" >
             </app-character>
-        </div>
+        </div> 
     </div>
     <div class="text-center" *ngIf="totalRecords > pageSize">
-        <pagination-controls (pageChange="pageChanged($event)" previousLabel='Anterior' nextLabel='Siguiente' id='characterGrid'></pagination-controls>
+        <pagination-controls (pageChange)="pageChanged($event)" previousLabel='Anterior' nextLabel='Siguiente' id='characterGrid'></pagination-controls>
     </div>
 </div>

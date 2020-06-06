@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  RICKANDMORTY_API: 'https://rickandmortyapi.com/api'
 };

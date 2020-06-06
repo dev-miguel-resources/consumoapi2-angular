@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Search } from '../../../../core/models/search/search';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Search } from 'src/app/core/models/search/search';
 
 @Component({
   selector: 'app-search-character',
@@ -16,15 +16,15 @@ export class SearchCharacterComponent implements OnInit {
   characterStatus: string;
   characterGender: string;
 
-  constructor() {
+  constructor() { 
     this.characterId = ''
     this.characterName = '';
-   }
+  }
 
   ngOnInit() {
   }
 
-  search(): void {
+  search() : void {
     let search: Search = new Search();
     search.id = this.getId();
     search.name = this.characterName;
@@ -39,9 +39,9 @@ export class SearchCharacterComponent implements OnInit {
 
   private getId(): number {
     let id = 0;
-    if(this.characterId && this.characterId !== '') {
-        id = parseFloat(this.characterId);
-    }
+    if (this.characterId && this.characterId !== '') {
+      id = parseFloat(this.characterId);
+    } 
     return id;
   }
 

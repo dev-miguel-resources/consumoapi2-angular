@@ -1,5 +1,5 @@
 import { Location } from './location';
-import { Origin } from './origin';
+import { Origin } from "./origin";
 
 interface ICharacter {
     id: number;

@@ -31,7 +31,7 @@ import { HomeRoutingModule } from './home-routing.module';
     HomeComponent
   ],
   providers: [
+   
   ]
 })
 export class HomeModule { }
-
